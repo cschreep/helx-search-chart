@@ -15,7 +15,7 @@ airflow:
         - name: REDIS_GRAPH
           value: test
         - name: REDIS_HOST
-          value: helx-search-redis-master  # TODO compute this
+          value: helx-search-redis-master
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -108,9 +108,6 @@ elasticsearch:
 nboost:
   enabled: false
 
-nginx:
-  enabled: false
-
 persistence:
   pvcSize: 1Gi
 
@@ -167,3 +164,9 @@ tranql:
   annotations: {}
   redis:
     existingSecret: helx-search-redis-secret
+
+ui:
+  enabled: true
+  extraEnv:
+    - name: PUBLIC_URL
+      value: ""
