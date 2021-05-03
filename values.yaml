@@ -82,12 +82,38 @@ airflow:
 
 api:
   enabled: true
-  elasticsearch:
-    host: elasticsearch-master
-    existingSecret: helx-search-elastic-secret
+  web:
+    deployment:
+      extraEnv:
+        - name: ELASTIC_API_HOST
+          value: helx-search-elasticsearch-master
+        - name: ELASTIC_API_PORT
+          value: "9200"
+        - name: ELASTIC_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: helx-search-elastic-secret
+              key: username
+        - name: ELASTIC_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: helx-search-elastic-secret
+              key: password
+        - name: REDIS_HOST
+          value: helx-search-redis-master
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: helx-search-redis-secret
+              key: password
+        - name: NBOOST_API_HOST
+          value: ""
   redis:
-    host: helx-search-redis-master
-    existingSecret: helx-search-redis-secret
+    enabled: false
+  elasticsearch:
+    enabled: false
 
 elasticsearch:
   enabled: true
